@@ -19,6 +19,7 @@ class CreateTeachersTable extends Migration
             $table->string('password',100);
             $table->string('hash',50);
             $table->rememberToken();
+            $table->boolean('isActive');
             $table->boolean('isBlock');
             $table->timestamps();
         });

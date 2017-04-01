@@ -15,12 +15,16 @@ class CreateEnrollsTable extends Migration
     {
         Schema::create('enrolls', function (Blueprint $table) {
             $table->increments('id');
-            $table->increments('student_id');
-            $table->increments('course_id');
+            $table->integer('student_id')->unsigned();
+            $table->integer('course_id')->unsigned();
             $table->string('hash',100)->unique();
             $table->timestamps();
-            $table->foreign('student_id')->references('students')->onDelete('cascade');
-            $table->foreign('course_id')->references('courses')->onDelete('cascade');
+        });
+
+        Schema::table('enrolls', function($table)
+        {
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }
 

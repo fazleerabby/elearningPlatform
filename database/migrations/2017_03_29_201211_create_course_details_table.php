@@ -15,10 +15,14 @@ class CreateCourseDetailsTable extends Migration
     {
         Schema::create('course_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('course_id');
+            $table->integer('course_id')->unsigned();
             $table->text('description');
             $table->string('duration',50);
             $table->string('introVideo',50);
+        });
+
+        Schema::table('course_details', function($table)
+        {
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }

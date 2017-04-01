@@ -17,10 +17,14 @@ class CreateCoursesTable extends Migration
             $table->increments('id')->unique();
             $table->string('name',100);
             $table->string('featuredImage',100);
-            $table->integer('category_id');
-            $table->integer('subcategory_id');
-            $table->integer('teacher_id');
+            $table->integer('category_id')->unsigned();
+            $table->integer('subcategory_id')->unsigned();
+            $table->integer('teacher_id')->unsigned();
             $table->timestamps();
+        });
+
+        Schema::table('courses', function($table)
+        {
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('subcategory_id')->references('id')->on('subcategories');
             $table->foreign('teacher_id')->references('id')->on('teachers');

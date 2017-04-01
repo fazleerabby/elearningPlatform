@@ -15,12 +15,16 @@ class CreateCourseLessonsTable extends Migration
     {
         Schema::create('course_lessons', function (Blueprint $table) {
             $table->increments('id');
-            $table->increments('chapter_id');
+            $table->integer('chapter_id')->unsigned();
             $table->string('name',50);
             $table->text('description');
             $table->string('urlVideo',100);
             $table->string('urlSourceFiles',100);
             $table->timestamps();
+        });
+
+        Schema::table('course_lessons', function($table)
+        {
             $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
         });
     }
