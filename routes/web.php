@@ -15,10 +15,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'mentor'], function(){
-    Route::get('/login', function(){
-        return view('teacher.login');
-    })->name('mentor.login');
+Route::post('/mentorSignup',[
+    'uses'  =>  'TeacherController@newMentor',
+    'as'    =>  'mentor.signup'
+]);
+
+Route::post('/mentorLogin',[
+    'uses'  =>  'TeacherController@login',
+    'as'    =>  'mentor.mentorLogin'
+]);
+
+Route::get('mentor/login', function(){
+    return view('teacher.login');
+})->name('mentor.login');
+
+Route::get('mentor/success',[
+    'uses'  =>  'TeacherController@success',
+    'as'    =>  'mentor.success'
+]);
+
+Route::group(['prefix' => 'mentor', 'middleware' => 'teacher'], function(){
 
     Route::get('/dashboard', function(){
         return view('teacher.dashboard');

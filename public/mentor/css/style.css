@@ -209,3 +209,11 @@ a:focus {
     background-color: #d34836;
     color: white;
 }
+
+.errors{
+    margin-top: -60px;
+}
+
+.errors .alert-warning{
+    margin-top: 0px;
+}

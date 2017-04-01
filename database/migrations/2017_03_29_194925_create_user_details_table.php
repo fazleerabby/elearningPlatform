@@ -14,13 +14,13 @@ class CreateUserDetailsTable extends Migration
     public function up()
     {
         Schema::create('user_details', function (Blueprint $table) {
-            $table->increments('id');
-            $table->morphs('user');
+            $table->morphs('userDetail');
             $table->string('firstName',50);
             $table->string('lastName',50);
-            $table->string('institution',100);
-            $table->date('dateOfBirth');
-            $table->string('image');
+            $table->string('institution',100)->nullable();
+            $table->date('dateOfBirth')->nullable();
+            $table->string('image')->nullable();
+            $table->timestamps();
         });
     }
 

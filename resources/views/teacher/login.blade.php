@@ -42,7 +42,14 @@
             <div class="col-md-6 login-container bs-reset mt-login-5-bsfix">
                 <div class="login-content">
                     <div id="login-div">
-                        <form action="javascript:;" class="login-form" method="post">
+                        <form action="{{ route('mentor.mentorLogin') }}" class="login-form" method="post">
+                            @if(count($errors)>0)
+                                <div class="errors">
+                                    @foreach($errors->all() as $error)
+                                        <div class="alert alert-warning" role="alert">{{ $error }}</div>
+                                    @endforeach
+                                </div>
+                            @endif
                             <h1>GYAN SCHOOL MENTOR LOGIN</h1>
                             <p> “Teaching is not a lost art, but the regard for it is a lost tradition.” <br/></p>
                             <div class="clearfix"></div>
@@ -56,6 +63,7 @@
                                 <div class="col-xs-6">
                                     <input class="form-control form-control-solid placeholder-no-fix form-group" type="password" autocomplete="off" placeholder="Password" name="password" required/> </div>
                             </div>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="row">
                                 <div class="col-sm-4 signUp">
                                     <a href="#register" id="mentorRegister">Not a User? Sign Up</a>
@@ -71,21 +79,22 @@
                     </div>
                     <!-- BEGIN FORGOT PASSWORD FORM -->
                     <div id="register">
-                        <form class="register-form" action="javascript:;" method="post">
+                        <form class="register-form" action="{{ route('mentor.signup') }}" method="post">
                             <h1>SIGN UP TO GYAN SCHOOL</h1>
                             <p> "Share your knowledge. It is a way to achieve immortality." </p>
                             <div class="form-group">
-                                <input class="form-control placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="First Name" name="firstName" />
+                                <input class="form-control placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="First Name" name="firstName" required/>
                             </div>
                             <div class="form-group">
-                                <input class="form-control placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="Last Name" name="lastName" />
+                                <input class="form-control placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="Last Name" name="lastName" required/>
                             </div>
                             <div class="form-group">
-                                <input class="form-control placeholder-no-fix form-group" type="email" autocomplete="off" placeholder="Email" name="email" />
+                                <input class="form-control placeholder-no-fix form-group" type="email" autocomplete="off" placeholder="Email" name="email" required/>
                             </div>
                             <div class="form-group">
-                                <input class="form-control placeholder-no-fix form-group" type="password" autocomplete="off" placeholder="Password" name="password" />
+                                <input class="form-control placeholder-no-fix form-group" type="password" autocomplete="off" placeholder="Password" name="password" required/>
                             </div>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-actions">
                                 <button type="button" id="back-btn" class="btn green btn-outline">Back To Login</button>
                                 <button type="submit" class="btn btn-success uppercase pull-right">SIGN UP</button>
