@@ -34,15 +34,22 @@ Route::get('mentor/success',[
     'as'    =>  'mentor.success'
 ]);
 
+Route::get('mentor/confirmEmail/{id}/{hash}',[
+    'uses'  =>  'TeacherController@mailConfirm',
+    'as'    =>  'mentor.confirm'
+]);
+
 Route::group(['prefix' => 'mentor', 'middleware' => 'teacher'], function(){
 
-    Route::get('/dashboard', function(){
-        return view('teacher.dashboard');
-    })->name('mentor.dashboard');
+    Route::get('/dashboard',[
+        'uses'  => 'DashboardController@viewDashboard',
+        'as'    => 'mentor.dashboard'
+    ]);
 
-    Route::get('/course/new', function(){
-        return view('teacher.createCourse');
-    })->name('course.new');
+    Route::get('/course/new', [
+        'uses'  =>  'DashboardController@viewCreateCourse',
+        'as'    =>  'course.new'
+    ]);
 
     Route::get('/content', function(){
         return view('teacher.content');

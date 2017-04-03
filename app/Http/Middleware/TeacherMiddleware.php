@@ -22,6 +22,6 @@ class TeacherMiddleware
             }
             return $next($request);
         }
-        return redirect()->back();
+        return redirect()->route('mentor.login');
     }
 }

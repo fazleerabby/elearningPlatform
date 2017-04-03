@@ -30,7 +30,7 @@
                 </div>
                 <!-- END PAGE HEADER-->
                 <div class="row right-content-wrapper">
-                    <form role="form">
+                    <form role="form" action="">
                         <div class="col-md-9">
                             <div class="portlet light ">
                                 <div class="portlet-title">
@@ -42,13 +42,13 @@
                                 <div class="portlet-body form">
                                     <div class="form-body">
                                         <div class="form-group">
-                                            <input type="text" class="form-control input-lg" placeholder="Course Title">
+                                            <input type="text" class="form-control input-lg" placeholder="Course Title" required>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="Course Description..."></textarea>
+                                            <textarea name="" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="Course Description..." required></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="What people will learn from this course..."></textarea>
+                                            <textarea name="" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="What people will learn from this course..." required></textarea>
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control input-lg" data-role="tagsinput" placeholder="Tags">
@@ -69,10 +69,10 @@
                                 </div>
                                 <div class="portlet-body form">
                                     <div class="form-body">
-                                        <video src="video/Ed Sheeran - Perfect.mp4" class="img-responsive video-thumbnail"></video>
+                                        <video src="" class="img-responsive video-thumbnail"></video>
                                         <div class="form-group">
                                             <div class="upload-video pull-right">
-                                                <input type="file" id="video-uploader">
+                                                <input type="file" accept="video/mp4" id="video-uploader">
                                                 <label for="video-uploader">Upload Video</label>
                                             </div>
                                         </div>
@@ -92,7 +92,7 @@
                                     <div class="form-body">
                                         <div class="form-group">
                                             <label for="">Category</label>
-                                            <select name="" id="" class="form-control">
+                                            <select name="" id="" class="form-control" required>
                                                 <option value="">-- Select Category --</option>
                                                 <option value="">Computer Science</option>
                                                 <option value="">Mechanical Engineering</option>
@@ -102,7 +102,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="">Subcategory</label>
-                                            <select name="" id="" class="form-control">
+                                            <select name="" id="" class="form-control" required>
                                                 <option value="">-- Select Subcategory --</option>
                                                 <option value="">Software Engineering</option>
                                                 <option value="">Machine Learning</option>
@@ -112,7 +112,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="">Course Duration</label>
-                                            <input type="text" class="form-control" placeholder="2 Months, 5 Hours/Week">
+                                            <input type="text" class="form-control" placeholder="2 Months, 5 Hours/Week" required>
                                         </div>
                                     </div>
                                 </div>
@@ -129,27 +129,27 @@
                                         <div class="form-group">
                                             <label for="">Cost </label>
                                             <div class="pull-right label-addition">Free
-                                                <input type="checkbox" class="js-switch" />
+                                                <input type="checkbox" class="js-switch" id="free-switch" />
                                             </div>
                                             <div class="clearfix"></div>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                 ৳
                                             </span>
-                                                <input type="number" class="form-control" min="0" placeholder="0">
+                                                <input type="number" class="form-control" id="cost" min="0" placeholder="0" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="">Sale </label>
                                             <div class="pull-right label-addition">
-                                                <input type="checkbox" class="js-switch" />
+                                                <input type="checkbox" class="js-switch" id="sale-switch" />
                                             </div>
                                             <div class="clearfix"></div>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
                                                 ৳
                                             </span>
-                                                <input type="number" class="form-control" min="0" placeholder="Sale Price">
+                                                <input type="number" class="form-control" min="0" id="saleCost" placeholder="Sale Price" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +167,7 @@
                                         <img src="{{ asset('mentor/images/placeholder.png') }}" class="img-responsive img-thumbnail" alt="">
                                         <div class="form-group">
                                             <div class="pull-right">
-                                                <input type="file" id="image-uploader">
+                                                <input type="file" id="image-uploader" required>
                                                 <label for="image-uploader">Upload Image</label>
                                             </div>
                                         </div>
@@ -193,12 +193,13 @@
     <!-- END CONTAINER -->
     <!-- BEGIN QUICK NAV -->
     <div class="quick-nav-overlay"></div>
+
     @section('customVar')
-        var uploadingImage
         <script>
             var uploadingImageGif = '{{ asset('mentor/images/loading-spinner-grey.gif') }}';
         </script>
     @endsection
+
     @section('pageJs')
         <script src="{{ asset('mentor/js/jquery.blockui.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('mentor/js/blockui.min.js') }}" type="text/javascript"></script>
@@ -207,49 +208,5 @@
     @endsection
 
     @section('customJs')
-        <script>
-            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-
-            elems.forEach(function (html) {
-                var switchery = new Switchery(html, {
-                    size: 'small',
-                    color: '#3598dc'
-                });
-            });
-        </script>
-        <script>
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        $('.video-thumbnail').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                    $('.video-thumbnail').css("width","100%");
-                }
-            }
-
-            $("#video-uploader").change(function () {
-                readURL(this);
-            });
-        </script>
-        <script>
-            function readURLimage(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        $('.img-thumbnail').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-
-            $("#image-uploader").change(function () {
-                readURLimage(this);
-            });
-        </script>
+        <script src="{{ asset('mentor/js/customCreateCourse.js') }}" type="text/javascript"></script>
     @endsection

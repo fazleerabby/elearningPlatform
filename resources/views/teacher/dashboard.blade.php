@@ -7,7 +7,7 @@
                 <!-- BEGIN CONTENT BODY -->
                 <div class="page-content">
                     <!-- BEGIN PAGE HEADER-->
-                    <h1 class="page-title"> Welcome Shuvo!
+                    <h1 class="page-title"> Welcome {{ $lastName }}
                         <small>**Mentor**</small>
                     </h1>
                     <div class="page-bar">
