@@ -23,10 +23,39 @@ $(document).ready(function () {
     }
 
     $("#video-uploader").change(function (e) {
+        if($('#title').val() === ''){
+            alert('Please Enter a Title First');
+            $("#video-uploader").val('');
+            return;
+        }
         readURL(this);
-        console.log(e.target.files[0].name);
         var ext = e.target.files[0].name.split('.').pop();
-        console.log(ext);
+        var form = new FormData($('#courseCreateForm')[0]);
+        $('#createCourseButton').attr('disabled','disabled');
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: form,
+            contentType: false,
+            processData: false,
+            dataType: 'html',
+            before: function () {
+
+            },
+            success: function (data) {
+                console.log(data);
+                $('#videoId').val(data);
+            },
+            complete: function (XMLHttpRequest,status) {
+                window.setTimeout(function(){
+                    App.unblockUI('#video-upload-portlet');
+                },2e3);
+                $('#createCourseButton').removeAttr('disabled');
+            },
+            error: function (XMLHttpRequest,status,error) {
+                console.log('error: ' + error);
+            }
+        });
     });
 
     function readURLimage(input) {
@@ -69,6 +98,22 @@ $(document).ready(function () {
             $('#saleCost').removeAttr('required');
             $('#saleCost').val(0);
         }
+    });
+    
+    $('#category').change(function () {
+        var value = $(this).val();
+        $.ajax({
+            url : categoryUrl,
+            type: 'POST',
+            data: {
+                'category' : value,
+                '_token' : csrf
+            },
+            dataType: 'html',
+            success: function (data) {
+                $('#subcategory').html(data);
+            }
+        });
     });
 });
 

@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    //
+    public function courseDetails(){
+        return $this->hasOne('App\CourseDetail');
+    }
 }

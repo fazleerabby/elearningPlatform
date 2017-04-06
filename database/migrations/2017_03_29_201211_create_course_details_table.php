@@ -17,8 +17,9 @@ class CreateCourseDetailsTable extends Migration
             $table->increments('id');
             $table->integer('course_id')->unsigned();
             $table->text('description');
+            $table->text('courseOutcome');
             $table->string('duration',50);
-            $table->string('introVideo',50);
+            $table->string('introVideo',50)->nullable();
         });
 
         Schema::table('course_details', function($table)

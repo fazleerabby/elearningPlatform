@@ -55,9 +55,10 @@ Route::group(['prefix' => 'mentor', 'middleware' => 'teacher'], function(){
         return view('teacher.content');
     })->name('content');
 
-    Route::get('/content/chapter', function(){
-        return view('teacher.courseContent');
-    })->name('content.chapter');
+    Route::get('/content/chapter',[
+        'uses'  => 'DashboardController@viewCourseContent',
+        'as'    => 'content.chapter'
+    ]);
 
     Route::get('/content/chapter/lesson', function(){
         return view('teacher.courseLesson');
@@ -66,4 +67,19 @@ Route::group(['prefix' => 'mentor', 'middleware' => 'teacher'], function(){
     Route::get('/content/chapter/lesson/new', function(){
         return view('teacher.createLesson');
     })->name('content.new');
+
+    Route::post('/course/new/create',[
+        'uses'  =>  'CourseController@createCourse',
+        'as'    =>  'course.create'
+    ]);
+
+    Route::post('/course/video/upload',[
+        'uses'  =>  'CourseController@uploadVideo',
+        'as'    =>  'upload.video'
+    ]);
+
+    Route::post('/subcategory/generate',[
+        'uses'  =>  'ajaxController@getSubcategory',
+        'as'    =>  'generate.subcategory'
+    ]);
 });

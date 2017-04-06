@@ -266,7 +266,7 @@ $lastName = ucfirst($teacher->teacherDetails->lastName);
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="content.html" class="nav-link nav-toggle">
+                    <a href="{{ route('content.chapter') }}" class="nav-link nav-toggle">
                         <i class="icon-book-open"></i>
                         <span class="title">Content</span>
                         <span class="selected"></span>

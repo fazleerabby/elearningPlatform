@@ -217,3 +217,7 @@ a:focus {
 .errors .alert-warning{
     margin-top: 0px;
 }
+
+.blockUI.blockMsg.blockElement{
+    top: 270px !important;
+}

@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class CourseDetail extends Model
 {
-    //
+    public $timestamps = false;
+    
+    public function course(){
+       return $this->belongsTo('App\Course');
+    }
 }

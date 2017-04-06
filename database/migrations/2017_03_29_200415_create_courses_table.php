@@ -17,6 +17,8 @@ class CreateCoursesTable extends Migration
             $table->increments('id')->unique();
             $table->string('name',100);
             $table->string('featuredImage',100);
+            $table->float('cost');
+            $table->float('saleCost');
             $table->integer('category_id')->unsigned();
             $table->integer('subcategory_id')->unsigned();
             $table->integer('teacher_id')->unsigned();

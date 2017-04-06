@@ -30,7 +30,7 @@
                 </div>
                 <!-- END PAGE HEADER-->
                 <div class="row right-content-wrapper">
-                    <form role="form" action="">
+                    <form role="form" action="{{ route('course.create') }}" id="courseCreateForm" method="post" enctype="multipart/form-data">
                         <div class="col-md-9">
                             <div class="portlet light ">
                                 <div class="portlet-title">
@@ -42,21 +42,21 @@
                                 <div class="portlet-body form">
                                     <div class="form-body">
                                         <div class="form-group">
-                                            <input type="text" class="form-control input-lg" placeholder="Course Title" required>
+                                            <input type="text" class="form-control input-lg" name="title" id="title" placeholder="Course Title" required>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="Course Description..." required></textarea>
+                                            <textarea name="desc" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="Course Description..." required></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="What people will learn from this course..." required></textarea>
+                                            <textarea name="outcome" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="What people will learn from this course..." required></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control input-lg" data-role="tagsinput" placeholder="Tags">
+                                            <input type="text" class="form-control input-lg" name="tag" data-role="tagsinput" placeholder="Tags">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn blue pull-right">CREATE COURSE</button>
+                                    <button type="submit" id="createCourseButton" class="btn blue pull-right">CREATE COURSE</button>
                                 </div>
                             </div>
                             
@@ -72,7 +72,7 @@
                                         <video src="" class="img-responsive video-thumbnail"></video>
                                         <div class="form-group">
                                             <div class="upload-video pull-right">
-                                                <input type="file" accept="video/mp4" id="video-uploader">
+                                                <input type="file" name="video" accept="video/mp4" id="video-uploader">
                                                 <label for="video-uploader">Upload Video</label>
                                             </div>
                                         </div>
@@ -92,27 +92,23 @@
                                     <div class="form-body">
                                         <div class="form-group">
                                             <label for="">Category</label>
-                                            <select name="" id="" class="form-control" required>
+                                            <select name="category" id="category" class="form-control" required>
                                                 <option value="">-- Select Category --</option>
-                                                <option value="">Computer Science</option>
-                                                <option value="">Mechanical Engineering</option>
-                                                <option value="">Electrical Engineering</option>
-                                                <option value="">Business Administration</option>
+                                                @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->categoryName }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="">Subcategory</label>
-                                            <select name="" id="" class="form-control" required>
+                                            <select name="subcategory" id="subcategory" class="form-control" required>
                                                 <option value="">-- Select Subcategory --</option>
-                                                <option value="">Software Engineering</option>
-                                                <option value="">Machine Learning</option>
-                                                <option value="">Data Scientist</option>
-                                                <option value="">Web Development</option>
+
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="">Course Duration</label>
-                                            <input type="text" class="form-control" placeholder="2 Months, 5 Hours/Week" required>
+                                            <input type="text" class="form-control" name="duration" placeholder="2 Months, 5 Hours/Week" required>
                                         </div>
                                     </div>
                                 </div>
@@ -136,7 +132,7 @@
                                                 <span class="input-group-addon">
                                                 ৳
                                             </span>
-                                                <input type="number" class="form-control" id="cost" min="0" placeholder="0" required>
+                                                <input type="number" name="cost" class="form-control" id="cost" min="0" placeholder="0" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -149,7 +145,7 @@
                                                 <span class="input-group-addon">
                                                 ৳
                                             </span>
-                                                <input type="number" class="form-control" min="0" id="saleCost" placeholder="Sale Price" disabled>
+                                                <input type="number" class="form-control" name="saleCost" min="0" id="saleCost" placeholder="Sale Price" value="0" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +163,7 @@
                                         <img src="{{ asset('mentor/images/placeholder.png') }}" class="img-responsive img-thumbnail" alt="">
                                         <div class="form-group">
                                             <div class="pull-right">
-                                                <input type="file" id="image-uploader" required>
+                                                <input type="file" id="image-uploader" name="image" required>
                                                 <label for="image-uploader">Upload Image</label>
                                             </div>
                                         </div>
@@ -175,6 +171,8 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="videoId" id="videoId" value="">
                     </form>
                 </div>
                 <!-- BEGIN FOOTER -->
@@ -197,6 +195,9 @@
     @section('customVar')
         <script>
             var uploadingImageGif = '{{ asset('mentor/images/loading-spinner-grey.gif') }}';
+            var url = '{{ route('upload.video') }}';
+            var categoryUrl = '{{ route('generate.subcategory') }}';
+            var csrf = '{{ csrf_token() }}';
         </script>
     @endsection
 
