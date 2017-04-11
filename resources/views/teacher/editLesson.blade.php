@@ -1,6 +1,6 @@
 @extends('teacher.layout.dashboard')
 
-        @section('pageTitle') New Content @endsection
+        @section('pageTitle') Edit {{ $lesson->name }} @endsection
 
         @section('main-content')
         <!-- BEGIN CONTENT -->
@@ -23,41 +23,41 @@
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <a href="{{ route('content.chapter',['courseId' => $chapter->course->id]) }}">{{ $chapter->course->name }}</a>
+                            <a href="{{ route('content.chapter',['courseId' => $lesson->chapter->course->id]) }}">{{ $lesson->chapter->course->name }}</a>
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <a href="{{ route('content.lesson',['courseId' => $chapter->course->id, 'chapterId' => $chapter->id ]) }}">{{ $chapter->chapterName }}</a>
+                            <a href="{{ route('content.lesson',['courseId' => $lesson->chapter->course->id, 'chapterId' => $lesson->chapter->id ]) }}">{{ $lesson->chapter->chapterName }}</a>
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <span>New</span>
+                            <span>{{ $lesson->name }}</span>
                         </li>
                     </ul>
                 </div>
                 <!-- END PAGE HEADER-->
                 <div class="row right-content-wrapper">
-                    <form role="form" action="{{ route('create.lesson') }}" method="POST" id="courseCreateForm" enctype="multipart/form-data">
+                    <form role="form" action="{{ route('lesson.update') }}" method="POST" id="courseCreateForm" enctype="multipart/form-data">
                         <div class="col-md-9">
                             <div class="portlet light ">
                                 <div class="portlet-title">
                                     <div class="caption font-red-sunglo">
                                         <i class="icon-note font-red-sunglo"></i>
-                                        <span class="caption-subject bold uppercase">New Lesson</span>
+                                        <span class="caption-subject bold uppercase">Edit Lesson</span>
                                     </div>
                                 </div>
                                 <div class="portlet-body form">
                                     <div class="form-body">
                                         <div class="form-group">
-                                            <input type="text" class="form-control input-lg" name="title" id="title" placeholder="Lesson Title" required>
+                                            <input type="text" class="form-control input-lg" name="title" id="title" placeholder="Lesson Title" value="{{ $lesson->name }}" required>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="details" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="Lesson Details..." required></textarea>
+                                            <textarea name="details" id="" cols="30" rows="10" style="resize:none;overflow: hidden" class="form-control input-lg" placeholder="Lesson Details..." required>{{ $lesson->description }}</textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-actions">
-                                    <button type="submit" id="createLesson" class="btn blue pull-right" disabled>CREATE LESSON</button>
+                                    <button type="submit" id="createLesson" class="btn blue pull-right">EDIT LESSON</button>
                                 </div>
                             </div>
 
@@ -71,6 +71,7 @@
                                 </div>
                                 <div class="portlet-body form">
                                     <div class="form-body">
+                                        {!! $videoURL !!}
                                         <video src="" class="img-responsive video-thumbnail"></video>
                                         <div class="form-group">
                                             <div class="upload-video pull-right">
@@ -94,7 +95,7 @@
                                     <div class="form-body">
                                         <div class="form-group">
                                             <div class="pull-right">
-                                                <input type="file" accept="application/zip" name="sourceFiles" id="zip-uploader" required>
+                                                <input type="file" accept="application/zip" name="sourceFiles" id="zip-uploader">
                                                 <label for="zip-uploader">
                                                     <img src="{{ asset('mentor/images/placeholder.png') }}" class="img-responsive img-thumbnail" alt="">
                                                 </label>
@@ -105,8 +106,9 @@
                             </div>
                         </div>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="videoId" id="videoId" value="">
-                        <input type="hidden" name="chapter" value="{{ $chapter->id }}">
+                        <input type="hidden" name="sourceFileName" value="{{ $lesson->urlSourceFiles }}">
+                        <input type="hidden" name="videoId" value="{{ $lesson->urlVideo }}">
+                        <input type="hidden" name="lessonId" value="{{ $lesson->id }}">
                     </form>
                 </div>
                 <!-- BEGIN FOOTER -->
@@ -125,7 +127,7 @@
         @section('customVar')
             <script>
                 var uploadingImageGif = '{{ asset('mentor/images/loading-spinner-grey.gif') }}';
-                var url = '{{ route('upload.video') }}';
+                var url = '{{ route('update.lesson.video',['lessonId' => $lesson->id]) }}';
             </script>
         @endsection
         @section('pageJs')

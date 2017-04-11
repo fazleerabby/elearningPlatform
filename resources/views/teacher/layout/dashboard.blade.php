@@ -200,6 +200,7 @@ $lastName = ucfirst($teacher->teacherDetails->lastName);
                                 <a href="page_user_profile_1.html">
                                     <i class="icon-user"></i> My Profile </a>
                             </li>
+                            <li>
                                 <a href="page_user_lock_1.html">
                                     <i class="icon-lock"></i> Settings </a>
                             </li>
@@ -259,14 +260,14 @@ $lastName = ucfirst($teacher->teacherDetails->lastName);
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="{{ route('mentor.dashboard') }}" class="nav-link ">
+                            <a href="{{ route('course.all') }}" class="nav-link ">
                                 <span class="title">All Courses</span>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('content.chapter') }}" class="nav-link nav-toggle">
+                    <a href="{{ route('content') }}" class="nav-link nav-toggle">
                         <i class="icon-book-open"></i>
                         <span class="title">Content</span>
                         <span class="selected"></span>

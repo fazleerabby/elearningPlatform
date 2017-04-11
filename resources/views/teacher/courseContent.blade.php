@@ -15,15 +15,15 @@
                     <ul class="page-breadcrumb">
                         <li>
                             <i class="icon-home"></i>
-                            <a href="dashboard.html">Dashboard</a>
+                            <a href="{{ route('mentor.dashboard') }}">Dashboard</a>
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <a href="content.html">Content</a>
+                            <a href="{{ route('content') }}">Content</a>
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <span>Course Content</span>
+                            <span>{{ $course->name }}</span>
                         </li>
                     </ul>
                     <div class="page-toolbar">
@@ -36,60 +36,51 @@
                 </div>
                 <!-- END PAGE HEADER-->
                 <div class="row right-content-wrapper" id="courseContentBody">
-                    <a href="courseLesson.html">
-                        <div class="col-md-12">
-                            <div class="portlet light">
-                                <div class="chapter-title pull-left">
-                                    <h2>Introduction To Computer Science</h2>
-                                </div>
-                                <div class="chapter-lesson pull-right">
-                                    <h4>
-                                        <i class="icon-book-open"></i>
-                                        &nbsp; 10 Lessons &nbsp; &nbsp;
-                                        <a class="deleteChapter" data-toggle="modal">
-                                            <i class="icon-close"></i>
-                                        </a>
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="courseLesson.html">
-                        <div class="col-md-12">
-                            <div class="portlet light">
-                                <div class="chapter-title pull-left">
-                                    <h2>Computer Science And Its Application</h2>
-                                </div>
-                                <div class="chapter-lesson pull-right">
-                                    <h4>
-                                        <i class="icon-book-open"></i>
-                                        &nbsp; 8 Lessons &nbsp; &nbsp;
-                                        <a href="" class="deleteChapter" data-toggle="modal" >
-                                            <i class="icon-close"></i>
-                                        </a>
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="courseLesson.html">
-                        <div class="col-md-12">
-                            <div class="portlet light">
-                                <div class="chapter-title pull-left">
-                                    <h2>Computer Programming</h2>
-                                </div>
-                                <div class="chapter-lesson pull-right">
-                                    <h4>
-                                        <i class="icon-book-open"></i>
-                                        &nbsp; 5 Lessons &nbsp; &nbsp;
-                                        <a href="" class="deleteChapter" data-toggle="modal" >
-                                            <i class="icon-close"></i>
-                                        </a>
-                                    </h4>
+                    {{--<a href="courseLesson.html">--}}
+                        {{--<div class="col-md-12">--}}
+                            {{--<div class="portlet light">--}}
+                                {{--<div class="chapter-title pull-left">--}}
+                                    {{--<h2>Introduction To Computer Science</h2>--}}
+                                {{--</div>--}}
+                                {{--<div class="chapter-lesson pull-right">--}}
+                                    {{--<h4>--}}
+                                        {{--<i class="icon-book-open"></i>--}}
+                                        {{--&nbsp; 10 Lessons &nbsp; &nbsp;--}}
+                                        {{--<a class="deleteChapter" data-toggle="modal">--}}
+                                            {{--<i class="icon-close"></i>--}}
+                                        {{--</a>--}}
+                                    {{--</h4>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</a>--}}
+                    @if(!count($course->chapters))
+                        <h1 style="text-align:center; opacity: 0.4; margin-top: 100px " id="null">NO CHAPTERS YET !</h1>
+                    @endif
+                    @foreach($course->chapters as $chapter)
+                        <a href="{{ route('content.lesson',['courseId' => $course->id, 'chapterId' => $chapter->id]) }}">
+                            <div class="col-md-12">
+                                <div class="portlet light">
+                                    <div class="chapter-title pull-left" id="{{ $chapter->id }}">
+                                        <h2>{{ $chapter->chapterName }}</h2>
+                                        <input type="hidden" id="chapter-id" value="{{ $chapter->id }}">
+                                    </div>
+                                    <div class="chapter-lesson pull-right">
+                                        <h4>
+                                            <i class="icon-book-open"></i>
+                                            &nbsp; {{ count($chapter->lessons) }} Lessons &nbsp; &nbsp;
+                                            <a class="editChapter" data-toggle="modal" style="margin-right: 10px">
+                                                <i class="icon-note"></i>
+                                            </a>
+                                            <a class="deleteChapter" data-toggle="modal">
+                                                <i class="icon-close"></i>
+                                            </a>
+                                        </h4>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    @endforeach
                 </div>
                 <!-- BEGIN FOOTER -->
                 <div class="page-footer">
@@ -106,11 +97,13 @@
                                 <h4 class="modal-title">Create New Chapter</h4>
                             </div>
                             <div class="modal-body">
-                                <form action="">
+                                <form action="" method="post" id="createChapterForm">
                                     <div class="form-group">
                                         <label for="">
                                             <h3>Chapter Name</h3></label>
-                                        <input type="text" class="form-control input-lg" id="chapter-name" placeholder="">
+                                        <input type="text" class="form-control input-lg" id="chapter-name" name="chapterName" placeholder="" required>
+                                        <input type="hidden" name="courseId" value="{{ $course->id }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
                                 </form>
                             </div>
@@ -131,10 +124,40 @@
                             </div>
                             <div class="modal-body">
                                 <h3></h3>
+                                <form id="deleteChapterForm">
+                                <input type="hidden" name="deleteChapterId" id="deleteChapterId" value="">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn green" data-dismiss="modal">NO</button>
                                 <button type="button" class="btn green" data-dismiss="modal" id="confirm-delete">YES</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div class="modal fade" id="editChapter" tabindex="-1" role="basic" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class="modal-title">Edit Chapter</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" method="post" id="editChapterForm">
+                                    <div class="form-group">
+                                        <label for="">
+                                            <h3>Chapter Name</h3></label>
+                                        <input type="text" class="form-control input-lg" id="edit-chapter" name="chapterName" placeholder="" required>
+                                        <input type="hidden" name="chapterId" id="chapterId" value="">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn green" data-dismiss="modal" id="edit-chapter-button">EDIT CHAPTER</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -148,29 +171,13 @@
 
         @endsection
 
-    @section('customJs')
+    @section('customVar')
         <script>
-            var deleteContent;
-            $('#add-chapter').click(function () {
-                var chapterName = $('#chapter-name').val();
-                var lesson = "0";
-                var chapterContent = '<a href=""><div class="col-md-12"><div class="portlet light"><div class="chapter-title pull-left"><h2>'+chapterName+'</h2></div><div class="chapter-lesson pull-right"><h4><i class="icon-book-open"></i>&nbsp'+lesson+' Lessons &nbsp &nbsp<a href="#" class="deleteChapter"><i class="icon-close"></i></a></h4></div></div></div></a>';
-
-                $('#courseContentBody').append(chapterContent);
-
-
-            });
-
-            $("#courseContentBody").on('click', '.deleteChapter', function (e){
-                e.preventDefault();
-                $('#deleteChapterModal').modal();
-                deleteContent = $(this).parent().parent().parent();
-                var title ='Are You Sure To Delete '+ $(this).parent().parent().parent().find('.chapter-title h2').html() +'?';
-                $('#deleteChapterModal .modal-dialog .modal-content .modal-body h3').html(title);
-            });
-
-            $('#confirm-delete').click(function(){
-                $(deleteContent).remove();
-            });
+            var url = '{{ route('create.chapter') }}';
+            var editURL = '{{ route('chapter.update') }}';
+            var deleteURL = '{{ route('chapter.delete') }}';
         </script>
+
+    @section('customJs')
+        <script src="{{ asset('mentor/js/customChapter.js') }}" type="text/javascript"></script>
     @endsection

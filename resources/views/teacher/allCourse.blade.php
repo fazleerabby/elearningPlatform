@@ -18,11 +18,11 @@
                     <ul class="page-breadcrumb">
                         <li>
                             <i class="icon-home"></i>
-                            <a href="index-2.html">Dashboard</a>
+                            <a href="{{ route('mentor.dashboard') }}">Dashboard</a>
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <span>Content</span>
+                            <span>All Courses</span>
                         </li>
                     </ul>
                 </div>
@@ -34,13 +34,13 @@
                             <div class="col-sm-4">
                                 <div class="blog-post-sm bordered blog-container">
                                     <div class="blog-img-thumb">
-                                        <a href="{{ route('content.chapter',['courseId' => $course->id]) }}">
+                                        <a href="{{ route('course.edit',['courseId' => $course->id]) }}">
                                             <img src="{{ route('course.image',['imageName' => $course->featuredImage]) }}">
                                         </a>
                                     </div>
                                     <div class="blog-post-content">
                                         <h2 class="blog-title blog-post-title">
-                                            <a href="{{ route('content.chapter',['courseId' => $course->id]) }}">{{ $course->name }}</a>
+                                            <a href="{{ route('course.edit',['courseId' => $course->id]) }}">{{ $course->name }}</a>
                                         </h2>
                                         <p class="blog-post-desc"> {{ str_limit($course->courseDetails->description,80,' ...') }} </p>
                                         <div class="blog-post-foot">

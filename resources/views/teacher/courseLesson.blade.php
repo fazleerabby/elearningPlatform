@@ -15,24 +15,24 @@
                     <ul class="page-breadcrumb">
                         <li>
                             <i class="icon-home"></i>
-                            <a href="dashboard.html">Dashboard</a>
+                            <a href="{{ route('mentor.dashboard') }}">Dashboard</a>
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <a href="content.html">Content</a>
+                            <a href="{{ route('content') }}">Content</a>
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <a href="courseContent.html">Course Content</a>
+                            <a href="{{ route('content.chapter',['courseId' => $chapter->course->id]) }}">{{ $chapter->course->name }}</a>
                             <i class="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <span>Introduction To Computer Science</span>
+                            <span>{{ $chapter->chapterName }}</span>
                         </li>
                     </ul>
                     <div class="page-toolbar">
                         <div class="btn-group pull-right">
-                            <a type="button" href="createLesson.html" class="btn btn-fit-height grey-salt"> New Lesson &nbsp;
+                            <a type="button" href="{{ route('content.new',['courseId' => $chapter->course->id, 'chapterId' => $chapter->id]) }}" class="btn btn-fit-height grey-salt"> New Lesson &nbsp;
                                 <i class="fa fa-plus"></i>
                             </a>
                         </div>
@@ -40,72 +40,33 @@
                 </div>
                 <!-- END PAGE HEADER-->
                 <div class="row right-content-wrapper" id="courseContentBody">
-                    <a href="">
-                        <div class="col-md-12">
-                            <div class="portlet light">
-                                <div class="chapter-title pull-left">
-                                    <h2>What is Computer Science?</h2>
-                                </div>
-                                <div class="chapter-lesson courseLesson pull-right">
-                                    <h3>
-                                       <a href="">
-                                           <i class="icon-eye"></i>
-                                       </a>
-                                       <a href="">
-                                           <i class="icon-note"></i>
-                                       </a>
-                                        <a class="deleteChapter" data-toggle="modal">
-                                            <i class="icon-close"></i>
-                                        </a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="">
-                        <div class="col-md-12">
-                            <div class="portlet light">
-                                <div class="chapter-title pull-left">
-                                    <h2>History of Computer</h2>
-                                </div>
-                                <div class="chapter-lesson courseLesson pull-right">
-                                    <h3>
-                                       <a href="">
-                                           <i class="icon-eye"></i>
-                                       </a>
-                                       <a href="">
-                                           <i class="icon-note"></i>
-                                       </a>
-                                        <a class="deleteChapter" data-toggle="modal">
-                                            <i class="icon-close"></i>
-                                        </a>
-                                    </h3>
+                    @if(!count($lessons))
+                        <h1 style="text-align:center; opacity: 0.4; margin-top: 100px " id="null">NO LESSONS YET !</h1>
+                    @endif
+                    @foreach($lessons as $lesson)
+                        <a href="{{ route('lesson.edit',['courseId' => $chapter->course->id, 'lessonId' => $lesson->id]) }}">
+                            <div class="col-md-12">
+                                <div class="portlet light">
+                                    <div class="chapter-title pull-left">
+                                        <h2>{{ $lesson->name }}</h2>
+                                    </div>
+                                    <div class="chapter-lesson courseLesson pull-right">
+                                        <h3>
+                                           <a href="">
+                                               <i class="icon-eye"></i>
+                                           </a>
+                                           <a href="{{ route('lesson.edit',['courseId' => $chapter->course->id, 'lessonId' => $lesson->id]) }}">
+                                               <i class="icon-note"></i>
+                                           </a>
+                                            <a href="{{ route('lesson.delete',['lessonId' => $lesson->id]) }}" data-toggle="modal">
+                                                <i class="icon-close"></i>
+                                            </a>
+                                        </h3>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </a>
-                    <a href="">
-                        <div class="col-md-12">
-                            <div class="portlet light">
-                                <div class="chapter-title pull-left">
-                                    <h2>Computer Science & Its Future</h2>
-                                </div>
-                                <div class="chapter-lesson courseLesson pull-right">
-                                    <h3>
-                                       <a href="">
-                                           <i class="icon-eye"></i>
-                                       </a>
-                                       <a href="">
-                                           <i class="icon-note"></i>
-                                       </a>
-                                        <a class="deleteChapter" data-toggle="modal">
-                                            <i class="icon-close"></i>
-                                        </a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+                    @endforeach
                 </div>
                 <!-- BEGIN FOOTER -->
                 <div class="page-footer">
@@ -114,43 +75,19 @@
                     </div>
                 </div>
                 <!-- END FOOTER -->
-                <div class="modal fade" id="createChapter" tabindex="-1" role="basic" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">Create New Chapter</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="">
-                                    <div class="form-group">
-                                        <label for="">
-                                            <h3>Chapter Name</h3></label>
-                                        <input type="text" class="form-control input-lg" id="chapter-name" placeholder="">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn green" data-dismiss="modal" id="add-chapter">ADD CHAPTER</button>
-                            </div>
-                        </div>
-                        <!-- /.modal-content -->
-                    </div>
-                    <!-- /.modal-dialog -->
-                </div>
                 <div class="modal fade" id="deleteChapterModal" tabindex="-1" role="basic" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">Delete Chapter</h4>
+                                <h4 class="modal-title">Delete Lesson</h4>
                             </div>
                             <div class="modal-body">
                                 <h3></h3>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn green" data-dismiss="modal">NO</button>
-                                <button type="button" class="btn green" data-dismiss="modal" id="confirm-delete">YES</button>
+                                <a href="" type="button" class="btn green" id="yesButton" data-dismiss="modal">YES</a>
                             </div>
                         </div>
                         <!-- /.modal-content -->

@@ -32,6 +32,7 @@ $(document).ready(function () {
         var ext = e.target.files[0].name.split('.').pop();
         var form = new FormData($('#courseCreateForm')[0]);
         $('#createCourseButton').attr('disabled','disabled');
+        $('iframe').hide();
         $.ajax({
             url: url,
             type: 'POST',
@@ -51,6 +52,7 @@ $(document).ready(function () {
                     App.unblockUI('#video-upload-portlet');
                 },2e3);
                 $('#createCourseButton').removeAttr('disabled');
+                $('#createLesson').removeAttr('disabled');
             },
             error: function (XMLHttpRequest,status,error) {
                 console.log('error: ' + error);

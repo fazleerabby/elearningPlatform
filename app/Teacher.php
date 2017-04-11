@@ -16,4 +16,8 @@ class Teacher extends Model implements Authenticatable
     public function teacherDetails(){
         return $this->morphOne('App\UserDetail','userDetail');
     }
+    
+    public function courses(){
+        return $this->hasMany('App\Course');
+    }
 }
